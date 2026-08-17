@@ -30,6 +30,7 @@ function App() {
     });
 
     setError("");
+    setPrediction(null);
   };
 
   const handleSubmit = async (e) => {
@@ -66,7 +67,6 @@ function App() {
       }
 
       setPrediction(data.predicted_price);
-
     } catch (err) {
       setError(err.message);
     } finally {
@@ -83,206 +83,283 @@ function App() {
   return (
     <div className="page">
 
-      <div className="container">
+      {/* Decorative background */}
+      <div className="blob blob-one"></div>
+      <div className="blob blob-two"></div>
 
-        <div className="header">
-          <h1>🏠 House Price Prediction</h1>
-          <p>
-            Enter the property details to estimate its price
-          </p>
-        </div>
+      <main className="container">
 
-        <form onSubmit={handleSubmit}>
+        {/* Header */}
+        <header className="header">
+          <div className="logo">🏠</div>
 
-          <label>Location</label>
+          <div>
+            <span className="eyebrow">MACHINE LEARNING PROJECT</span>
 
-          <select
-            name="location_grouped"
-            value={formData.location_grouped}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select Location</option>
-
-            {locations.map((location) => (
-              <option key={location} value={location}>
-                {location}
-              </option>
-            ))}
-          </select>
-
-
-          <label>Carpet Area (sqft)</label>
-
-          <input
-            name="carpet_area_sqft"
-            type="number"
-            min="1"
-            placeholder="Example: 1200"
-            value={formData.carpet_area_sqft}
-            onChange={handleChange}
-            required
-          />
-
-
-          <label>Floor Number</label>
-
-          <input
-            name="floor_num"
-            type="number"
-            min="0"
-            placeholder="Example: 5"
-            value={formData.floor_num}
-            onChange={handleChange}
-            required
-          />
-
-
-          <label>Bathrooms</label>
-
-          <input
-            name="bathroom"
-            type="number"
-            min="1"
-            placeholder="Example: 2"
-            value={formData.bathroom}
-            onChange={handleChange}
-            required
-          />
-
-
-          <label>Balconies</label>
-
-          <input
-            name="balcony"
-            type="number"
-            min="0"
-            placeholder="Example: 1"
-            value={formData.balcony}
-            onChange={handleChange}
-            required
-          />
-
-
-          <label>Car Parking</label>
-
-          <input
-            name="car_parking"
-            type="number"
-            min="0"
-            placeholder="Example: 1"
-            value={formData.car_parking}
-            onChange={handleChange}
-            required
-          />
-
-
-          <label>Furnishing</label>
-
-          <select
-            name="Furnishing"
-            value={formData.Furnishing}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select Furnishing</option>
-            <option value="Furnished">Furnished</option>
-            <option value="Semi-Furnished">Semi-Furnished</option>
-            <option value="Unfurnished">Unfurnished</option>
-          </select>
-
-
-          <label>Transaction</label>
-
-          <select
-            name="Transaction"
-            value={formData.Transaction}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select Transaction</option>
-            <option value="New_Property">New Property</option>
-            <option value="Resale">Resale</option>
-          </select>
-
-
-          <label>Ownership</label>
-
-          <select
-            name="Ownership"
-            value={formData.Ownership}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select Ownership</option>
-            <option value="Freehold">Freehold</option>
-            <option value="Leasehold">Leasehold</option>
-          </select>
-
-
-          <label>Facing</label>
-
-          <select
-            name="facing"
-            value={formData.facing}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select Facing</option>
-            <option value="East">East</option>
-            <option value="West">West</option>
-            <option value="North">North</option>
-            <option value="South">South</option>
-          </select>
-
-
-          <div className="buttons">
-
-            <button
-              type="submit"
-              disabled={loading}
-            >
-              {loading ? "Predicting..." : "Predict Price"}
-            </button>
-
-            <button
-              type="button"
-              className="reset"
-              onClick={handleReset}
-            >
-              Reset
-            </button>
-
-          </div>
-
-        </form>
-
-
-        {error && (
-          <div className="error">
-            <strong>Error:</strong> {error}
-          </div>
-        )}
-
-
-        {prediction !== null && (
-          <div className="result">
-
-            <h2>Estimated House Price</h2>
-
-            <div className="price">
-              ₹{prediction.toLocaleString()}
-            </div>
+            <h1>House Price Prediction</h1>
 
             <p>
-              This is the estimated price generated by the ML model.
+              Estimate your property's price using our machine learning model.
             </p>
-
           </div>
-        )}
+        </header>
 
-      </div>
+        {/* Form */}
+        <section className="form-card">
 
+          <div className="section-title">
+            <div>
+              <h2>Property Details</h2>
+              <p>Enter the information below</p>
+            </div>
+
+            <span className="step-badge">10 Fields</span>
+          </div>
+
+          <form onSubmit={handleSubmit}>
+
+            <div className="form-grid">
+
+              {/* Location */}
+              <div className="field full">
+                <label>Location</label>
+
+                <select
+                  name="location_grouped"
+                  value={formData.location_grouped}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Select Location</option>
+
+                  {locations.map((location) => (
+                    <option key={location} value={location}>
+                      {location}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Carpet Area */}
+              <div className="field">
+                <label>Carpet Area</label>
+
+                <div className="input-wrapper">
+                  <input
+                    name="carpet_area_sqft"
+                    type="number"
+                    min="1"
+                    placeholder="1200"
+                    value={formData.carpet_area_sqft}
+                    onChange={handleChange}
+                    required
+                  />
+                  <span>sqft</span>
+                </div>
+              </div>
+
+              {/* Floor */}
+              <div className="field">
+                <label>Floor Number</label>
+
+                <input
+                  name="floor_num"
+                  type="number"
+                  min="0"
+                  placeholder="5"
+                  value={formData.floor_num}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              {/* Bathroom */}
+              <div className="field">
+                <label>Bathrooms</label>
+
+                <input
+                  name="bathroom"
+                  type="number"
+                  min="1"
+                  placeholder="2"
+                  value={formData.bathroom}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              {/* Balcony */}
+              <div className="field">
+                <label>Balconies</label>
+
+                <input
+                  name="balcony"
+                  type="number"
+                  min="0"
+                  placeholder="1"
+                  value={formData.balcony}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              {/* Parking */}
+              <div className="field">
+                <label>Car Parking</label>
+
+                <input
+                  name="car_parking"
+                  type="number"
+                  min="0"
+                  placeholder="1"
+                  value={formData.car_parking}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              {/* Furnishing */}
+              <div className="field">
+                <label>Furnishing</label>
+
+                <select
+                  name="Furnishing"
+                  value={formData.Furnishing}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Select Furnishing</option>
+                  <option value="Furnished">Furnished</option>
+                  <option value="Semi-Furnished">Semi-Furnished</option>
+                  <option value="Unfurnished">Unfurnished</option>
+                </select>
+              </div>
+
+              {/* Transaction */}
+              <div className="field">
+                <label>Transaction</label>
+
+                <select
+                  name="Transaction"
+                  value={formData.Transaction}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Select Transaction</option>
+                  <option value="New_Property">New Property</option>
+                  <option value="Resale">Resale</option>
+                </select>
+              </div>
+
+              {/* Ownership */}
+              <div className="field">
+                <label>Ownership</label>
+
+                <select
+                  name="Ownership"
+                  value={formData.Ownership}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Select Ownership</option>
+                  <option value="Freehold">Freehold</option>
+                  <option value="Leasehold">Leasehold</option>
+                </select>
+              </div>
+
+              {/* Facing */}
+              <div className="field">
+                <label>Facing</label>
+
+                <select
+                  name="facing"
+                  value={formData.facing}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Select Facing</option>
+                  <option value="East">East</option>
+                  <option value="West">West</option>
+                  <option value="North">North</option>
+                  <option value="South">South</option>
+                </select>
+              </div>
+
+            </div>
+
+            {/* Buttons */}
+            <div className="buttons">
+
+              <button
+                type="submit"
+                className="predict-btn"
+                disabled={loading}
+              >
+                {loading ? (
+                  <>
+                    <span className="spinner"></span>
+                    Predicting...
+                  </>
+                ) : (
+                  <>
+                    ✨ Predict Price
+                  </>
+                )}
+              </button>
+
+              <button
+                type="button"
+                className="reset-btn"
+                onClick={handleReset}
+              >
+                Reset
+              </button>
+
+            </div>
+
+          </form>
+
+          {/* Error */}
+          {error && (
+            <div className="error">
+              <span>⚠️</span>
+              <div>
+                <strong>Prediction Error</strong>
+                <p>{error}</p>
+              </div>
+            </div>
+          )}
+
+          {/* Result */}
+          {prediction !== null && (
+            <div className="result">
+
+              <div className="result-icon">✓</div>
+
+              <div>
+                <span>ESTIMATED PROPERTY PRICE</span>
+
+                <h2>
+                  ₹{Number(prediction).toLocaleString()}
+                </h2>
+
+                <p>
+                  Prediction generated successfully by the ML model.
+                </p>
+              </div>
+
+            </div>
+          )}
+
+        </section>
+
+        <footer>
+          <span>Powered by Machine Learning</span>
+          <span>•</span>
+          <span>House Price Prediction</span>
+        </footer>
+
+      </main>
     </div>
   );
 }
