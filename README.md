@@ -89,4 +89,50 @@ The most important features were:
 - `requirements.txt` — Required Python libraries
 - `README.md` — Project documentation
 - `.gitignore` — Git ignored files
-House Price Prediction using Machine Learning
+House Price Prediction using Machine Learning# House Price Prediction 🏠
+
+A Machine Learning project for predicting house prices using different regression algorithms.
+
+##  Project Overview
+
+This project aims to predict house prices based on the available features in the dataset.
+
+The project covers the complete Machine Learning workflow:
+
+- Data Loading
+- Exploratory Data Analysis (EDA)
+- Data Preprocessing
+- Feature Engineering
+- Model Training
+- Model Evaluation
+- Model Saving
+
+## Technologies & Libraries
+
+- Python
+- Pandas
+- NumPy
+- Matplotlib
+- Seaborn
+- Scikit-learn
+- Jupyter Notebook
+- Joblib
+
+##  Machine Learning
+
+The project uses regression techniques to predict house prices.
+
+The trained model is saved as:
+
+`final_house_price_model.pkl`
+
+##  Project Structure
+
+```text
+house-price-project/
+│
+├── house_price_model.ipynb
+├── final_house_price_model.pkl
+├── requirements.txt
+├── README.md
+└── .gitignore
